@@ -37,6 +37,8 @@ public class BuyDAO {
 			st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
 			st.executeUpdate();
 
+
+
 			ResultSet rs = st.getGeneratedKeys();
 			if (rs.next()) {
 				autoIncKey = rs.getInt(1);
@@ -101,7 +103,7 @@ public class BuyDAO {
 		}
 	}
 
-	public static ArrayList<BuyDataBeans> getBuyAllDetail() throws SQLException {
+	public static ArrayList<BuyDataBeans> getBuyAllDetail(int userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		ArrayList<BuyDataBeans> buyDetailAll = new ArrayList<BuyDataBeans>();
@@ -109,10 +111,14 @@ public class BuyDAO {
 		try {
 			con = DBManager.getConnection();
 
-			st = con.prepareStatement("SELECT * FROM t_buy");
 
-			ResultSet rs = st.executeQuery();
+			//SELECT文を準備
+            String sql = "SELECT * FROM t_buy WHERE user_id = ? ORDER BY id DESC";
 
+            // SELECTを実行し、結果表を取得
+            PreparedStatement pStmt = con.prepareStatement(sql);
+            pStmt.setInt(1, userId);
+            ResultSet rs = pStmt.executeQuery();
 
 			while(rs.next()) {
 
@@ -138,6 +144,51 @@ public class BuyDAO {
 				con.close();
 			}
 		}
+	}
+
+	public static String getBuyId(int buyId) throws SQLException {
+		Connection con = null;
+		PreparedStatement st = null;
+		String str = "";
+
+		try {
+			con = DBManager.getConnection();
+
+
+			//SELECT文を準備
+            String sql = "select * from t_buy_detail WHERE buy_id = ?";
+
+            // SELECTを実行し、結果表を取得
+            PreparedStatement pStmt = con.prepareStatement(sql);
+            pStmt.setInt(1, buyId);
+            ResultSet rs = pStmt.executeQuery();
+
+            int id = 0;
+
+			while(rs.next()) {
+
+				int Id = rs.getInt("item_id");
+				str += Id + ",";
+
+			}
+
+			System.out.println("searching BuyDataBeans by buyID has been completed");
+
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new SQLException(e);
+		} finally {
+			if (con != null) {
+				con.close();
+			}
+		}
+		return str;
+	}
+
+	private static Integer Integer(int id) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 
 }

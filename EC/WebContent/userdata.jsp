@@ -79,9 +79,9 @@
 							<c:forEach var = "buyDetail" items = "${buyDetailAll}">
 								<tr>
 									<td class="center"><a href="UserBuyHistoryDetail?buy_id=${buyDetail.id}" class="btn-floating btn waves-effect waves-light "> <i class="material-icons">details</i></a></td>
-									<td class="center"><c:out value = "${buyDetail.buyDate}"/></td>
+									<td class="center"><c:out value = "${buyDetail.formatDate}"/></td>
 									<td class="center"><c:out value = "${buyDetail.deliveryMethodName}"/></td>
-									<td class="center"><c:out value = "${buyDetail.totalPrice}"/></td>
+									<td class="center"><c:out value = "${buyDetail.totalPrice}"/>円</td>
 								</tr>
 							</c:forEach>
 

@@ -44,7 +44,7 @@ public class UserData extends HttpServlet {
 
 			//修正 購入情報(BuyDataBeans)
 			BuyDAO buyDao = new BuyDAO();
-			ArrayList<BuyDataBeans> buyDetailAll = buyDao.getBuyAllDetail();
+			ArrayList<BuyDataBeans> buyDetailAll = buyDao.getBuyAllDetail(userId);
 
 			for(BuyDataBeans inputDeliver : buyDetailAll) {
 
